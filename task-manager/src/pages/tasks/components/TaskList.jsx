@@ -1,11 +1,11 @@
 import React from 'react';
 import Task from './Task';
 
-function TaskList(props) {
+function TaskList({ tasks }) {
   // const { tasks } = props
   return (
     <div>
-      {props.tasks.map((item) => (
+      {tasks.map((item) => (
         <Task key={item.id} task={item} />
       ))}
     </div>

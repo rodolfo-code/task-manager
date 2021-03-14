@@ -1,26 +1,54 @@
-const mockTasks = [
-  {
-    id: 1,
-    title: 'Learn Redux',
-    description: 'The store, actions, and reducers, oh my!',
-    status: 'In Progress',
-  },
-  {
-    id: 2,
-    title: 'Peace on Earth',
-    description: 'No big deal.',
-    status: 'Completed',
-  },
-  {
-    id: 3,
-    title: 'Star Wars',
-    description: 'Fiction',
-    status: 'Completed',
-  },
-];
+import { ADD_NEW_TASK } from '../common/ActionTypes';
 
-function tasks(state = { tasks: mockTasks }, action) {
-  return state;
+// const mockTasks = [
+//   {
+//     id: 1,
+//     title: 'Learn Redux',
+//     description: 'The store, actions, and reducers, oh my!',
+//     status: 'In Progress',
+//   },
+//   {
+//     id: 2,
+//     title: 'Peace on Earth',
+//     description: 'No big deal.',
+//     status: 'Completed',
+//   },
+//   {
+//     id: 3,
+//     title: 'Star Wars',
+//     description: 'Fiction',
+//     status: 'Completed',
+//   },
+// ];
+
+const initialState = {
+  taskList: [
+    {
+      id: 1,
+      title: 'Learn Redux',
+      description: 'The store, actions, and reducers, oh my!',
+      status: 'In Progress',
+    },
+    {
+      id: 2,
+      title: 'Peace on Earth',
+      description: 'No big deal.',
+      status: 'Completed',
+    },
+  ],
+};
+
+function tasks(state = initialState, action) {
+  switch (action.type) {
+    case ADD_NEW_TASK:
+      return {
+        ...state,
+        taskList: [...state.taskList, action.payload],
+      };
+
+    default:
+      return state;
+  }
 }
 
 export default tasks;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-import Tasks from './pages/Tasks';
+import TasksPage from './pages/tasks/TasksPage';
+import Login from './pages/login';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
           <Login />
         </Route>
         <Route path="/tasks">
-          <Tasks />
+          <TasksPage />
         </Route>
       </Switch>
     </Router>

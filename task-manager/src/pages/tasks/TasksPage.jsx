@@ -32,13 +32,16 @@ class TasksPage extends Component {
   }
 
   handleClick() {
-    const { taskList, addNewTask } = this.props;
-    const { title, description } = this.state;
+    const { addNewTask } = this.props;
+    const { title, description, showForm } = this.state;
     const newTask = { title, description };
     console.log(newTask);
     addNewTask(newTask);
-
-    console.log(taskList);
+    this.setState({
+      title: '',
+      description: '',
+      showForm: !showForm,
+    });
   }
 
   renderInput() {

@@ -1,93 +1,117 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addNewTask } from '../../actions/actions';
+import { addNewTask, editTask } from '../../actions/actions';
 import TaskList from './components/TaskList';
 
-// const TASK_STATUSES = ['Unstarted', 'In Progress', 'Completed'];
+const TASK_STATUSES = ['Unstarted', 'In Progress', 'Completed'];
 
 class TasksPage extends Component {
   constructor(props) {
     super(props);
-
-    this.renderInput = this.renderInput.bind(this);
 
     this.state = {
       title: '',
       description: '',
       showForm: false,
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.resetForm = this.resetForm.bind(this);
+    this.newTask = this.newTask.bind(this);
+    this.toogleForm = this.toogleForm.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
   }
 
-  handleChange({ name, value }) {
+  handleChange({ target }) {
+    const { name, value } = target;
     this.setState({
       [name]: value,
     });
   }
 
-  newTask() {
+  resetForm() {
+    this.setState({
+      showForm: false,
+      title: '',
+      description: '',
+    })
+  }
+
+  newTask(e) {
+    e.preventDefault();
+    const { addNewTask } = this.props
+    const { title, description } = this.state;
+    addNewTask({ 
+      title,
+      description,
+    });
+    this.resetForm();
+  }
+
+  onStatusChange = (id, status) => {
+    const newState = {
+      id,
+      status,
+    }
+    editTask(newState);
+    console.log(newState);
+  }
+
+  toogleForm = () => {
     const { showForm } = this.state;
     this.setState({
       showForm: !showForm,
     });
   }
 
-  handleClick() {
-    const { addNewTask } = this.props;
-    const { title, description, showForm } = this.state;
-    const newTask = { title, description };
-    console.log(newTask);
-    addNewTask(newTask);
-    this.setState({
-      title: '',
-      description: '',
-      showForm: !showForm,
+  renderTaskList() {
+    const { taskList } = this.props;
+    return TASK_STATUSES.map(status => {
+      const statusTasks = taskList.filter(task => task.status === status);
+      return (
+        <TaskList 
+          key={ status } 
+          status={ status } 
+          tasks={ statusTasks } 
+          onStatusChange={ this.onStatusChange }
+        />
+      )
     });
   }
 
-  renderInput() {
-    const { title, description } = this.state;
-    return (
-      <form>
-        <label htmlFor="title">
-          Título
-          <input
-            type="text"
-            name="title"
-            value={title}
-            onChange={(e) => this.handleChange(e.target)}
-          />
-        </label>
-
-        <label htmlFor="description">
-          Descrição
-          <input
-            type="text"
-            name="description"
-            value={description}
-            onChange={(e) => this.handleChange(e.target)}
-          />
-        </label>
-        <button type="button" onClick={() => this.handleClick()}>
-          Add
-        </button>
-      </form>
-    );
-  }
-
   render() {
-    const { taskList, userEmail } = this.props;
-    console.log(userEmail);
     const { title, description, showForm } = this.state;
-    console.log(title, description);
     return (
       <div>
-        {showForm ? this.renderInput() : ''}
-        <button type="button" onClick={() => this.newTask()}>
-          NewTask
-        </button>
-        <TaskList tasks={taskList} />
+        <button onClick={ this.toogleForm }>+ New task</button>
+        { showForm && (
+          <form onSubmit={ this.newTask }>
+            <input 
+              onChange={ this.handleChange }
+              name="title"
+              value={ title }
+              type="text"
+              placeholder="title"
+            />
+            <input 
+              onChange={ this.handleChange }
+              name="description"
+              value={ description }
+              type="text"
+              placeholder="description"
+            />
+            <button
+              type="submit"
+            >
+              Save
+            </button>
+          </form>
+        ) }
+        <div>
+          { this.renderTaskList() }
+        </div>
       </div>
-    );
+    )
   }
 }
 
@@ -98,6 +122,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addNewTask: (param) => dispatch(addNewTask(param)),
+  editTask: (param) => dispatch(editTask(param)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TasksPage);

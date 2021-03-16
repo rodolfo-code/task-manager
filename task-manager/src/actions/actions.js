@@ -1,10 +1,20 @@
-import { ADD_NEW_TASK, SAVE_USER_DATA } from '../common/ActionTypes';
+import { ADD_NEW_TASK, SAVE_USER_DATA, EDIT_TASK } from '../common/ActionTypes';
 
-export function addNewTask(payload) {
+let _id = 1;
+export function uniqueId() {
+  return _id++;
+}
+
+export function addNewTask({ title, description }) {
   return {
     type: ADD_NEW_TASK,
-    payload,
-  };
+    payload: { 
+      id: uniqueId(),
+      title, 
+      description,
+      status: 'Unstarted',
+    }
+  }
 }
 
 export function saveUserData(payload) {
@@ -12,4 +22,15 @@ export function saveUserData(payload) {
     type: SAVE_USER_DATA,
     payload,
   };
+}
+
+export function editTask(id, params={}) {
+  return { 
+    a: console.log(id, params),
+    type: EDIT_TASK,
+    payload: { 
+      id,
+      params,
+    }
+  }
 }

@@ -1,15 +1,22 @@
 import React from 'react';
 import Task from './Task';
 
-function TaskList({ tasks }) {
-  // const { tasks } = props
+const TaskList = props => {
+  const { status, tasks, onStatusChange } = props;
   return (
     <div>
-      {tasks.map((item) => (
-        <Task key={item.id} task={item} />
+      <div>
+        <strong>{ status }</strong>
+      </div>
+      { tasks.map(task =>(
+        <Task 
+          key={ task.id } 
+          task={ task }
+          onStatusChange={ onStatusChange } 
+        />
       ))}
     </div>
-  );
+  )
 }
 
 export default TaskList;

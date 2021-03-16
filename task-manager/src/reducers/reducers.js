@@ -1,25 +1,4 @@
-import { ADD_NEW_TASK, SAVE_USER_DATA } from '../common/ActionTypes';
-
-// const mockTasks = [
-//   {
-//     id: 1,
-//     title: 'Learn Redux',
-//     description: 'The store, actions, and reducers, oh my!',
-//     status: 'In Progress',
-//   },
-//   {
-//     id: 2,
-//     title: 'Peace on Earth',
-//     description: 'No big deal.',
-//     status: 'Completed',
-//   },
-//   {
-//     id: 3,
-//     title: 'Star Wars',
-//     description: 'Fiction',
-//     status: 'Completed',
-//   },
-// ];
+import { ADD_NEW_TASK, SAVE_USER_DATA, EDIT_TASK } from '../common/ActionTypes';
 
 const initialState = {
   taskList: [],
@@ -30,15 +9,23 @@ function tasks(state = initialState, action) {
   switch (action.type) {
     case ADD_NEW_TASK:
       return {
-        ...state,
-        taskList: [...state.taskList, action.payload],
+        taskList: state.taskList.concat(action.payload),
       };
     case SAVE_USER_DATA:
       return {
         ...state,
         userEmail: action.payload,
       };
-
+    case EDIT_TASK: 
+      const { payload } = action;
+      return {
+        taskList: state.taskList.map(task => {
+          if (task.id === payload.id) {
+            return Object.assign({}, task, payload.params);
+          }
+          return task;
+        })
+      }
     default:
       return state;
   }

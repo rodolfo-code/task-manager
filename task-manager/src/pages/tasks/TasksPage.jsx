@@ -75,8 +75,8 @@ class TasksPage extends Component {
   }
 
   render() {
-    const { taskList } = this.props;
-    // console.log(tasks);
+    const { taskList, userEmail } = this.props;
+    console.log(userEmail);
     const { title, description, showForm } = this.state;
     console.log(title, description);
     return (
@@ -93,6 +93,7 @@ class TasksPage extends Component {
 
 const mapStateToProps = (state) => ({
   taskList: state.taskList,
+  userEmail: state.userEmail,
 });
 
 const mapDispatchToProps = (dispatch) => ({

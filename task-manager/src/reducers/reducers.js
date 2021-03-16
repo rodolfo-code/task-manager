@@ -1,4 +1,4 @@
-import { ADD_NEW_TASK } from '../common/ActionTypes';
+import { ADD_NEW_TASK, SAVE_USER_DATA } from '../common/ActionTypes';
 
 // const mockTasks = [
 //   {
@@ -23,6 +23,7 @@ import { ADD_NEW_TASK } from '../common/ActionTypes';
 
 const initialState = {
   taskList: [],
+  userEmail: '',
 };
 
 function tasks(state = initialState, action) {
@@ -31,6 +32,11 @@ function tasks(state = initialState, action) {
       return {
         ...state,
         taskList: [...state.taskList, action.payload],
+      };
+    case SAVE_USER_DATA:
+      return {
+        ...state,
+        userEmail: action.payload,
       };
 
     default:

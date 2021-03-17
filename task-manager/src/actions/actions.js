@@ -8,13 +8,13 @@ export function uniqueId() {
 export function addNewTask({ title, description }) {
   return {
     type: ADD_NEW_TASK,
-    payload: { 
+    payload: {
       id: uniqueId(),
-      title, 
+      title,
       description,
       status: 'Unstarted',
-    }
-  }
+    },
+  };
 }
 
 export function saveUserData(payload) {
@@ -24,13 +24,13 @@ export function saveUserData(payload) {
   };
 }
 
-export function editTask(id, params={}) {
-  return { 
+export function editTask(id, params = {}) {
+  return {
     a: console.log(id, params),
     type: EDIT_TASK,
-    payload: { 
+    payload: {
       id,
       params,
-    }
-  }
+    },
+  };
 }

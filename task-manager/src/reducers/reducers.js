@@ -16,16 +16,16 @@ function tasks(state = initialState, action) {
         ...state,
         userEmail: action.payload,
       };
-    case EDIT_TASK: 
+    case EDIT_TASK:
       const { payload } = action;
       return {
-        taskList: state.taskList.map(task => {
+        taskList: state.taskList.map((task) => {
           if (task.id === payload.id) {
             return Object.assign({}, task, payload.params);
           }
           return task;
-        })
-      }
+        }),
+      };
     default:
       return state;
   }
